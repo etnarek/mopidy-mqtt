@@ -72,6 +72,8 @@ class MQTTFrontend(pykka.ThreadingActor, core.CoreListener):
                 self.core.playback.next()
             elif msg.payload == "previous":
                 self.core.playback.previous()
+            elif msg.payload == "clear":
+                self.core.tracklist.clear()
         elif msg.topic == topVolume:
             try:
                 volume=int(msg.payload)
