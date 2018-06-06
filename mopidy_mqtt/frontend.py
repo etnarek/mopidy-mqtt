@@ -97,6 +97,14 @@ class MQTTFrontend(pykka.ThreadingActor, core.CoreListener):
         self.MQTTHook.publish("/state", new_state)
         if (new_state == "stopped"):
             self.MQTTHook.publish("/nowplaying", "stopped")
+
+    def tracklist_changed(self):
+        track = self.core.tracklist.next_track(None)
+        if track:
+            artists = ', '.join(sorted([a.name for a in track.artists]))
+            self.MQTTHook.publish("/nextplaying", artists + ":" + track.name)
+        else:
+            self.MQTTHook.publish("/nextplaying", "No next")
         
     def track_playback_started(self, tl_track):
         track = tl_track.track

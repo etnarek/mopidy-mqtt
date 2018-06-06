@@ -13,6 +13,10 @@ When a new title or stream is started Mopidy sends this via `nowplaying`
 
 `mytopic/nowplaying -> 'myradio'`
 
+When there is a change in the playlist Mopidy sends the next playing song via `nextplaying`
+
+`mytopic/nextplaying -> 'mynextradio'`
+
 ## Play a song or stream
 You can start playback of a song or stream via MQTT. Send the following:
 
