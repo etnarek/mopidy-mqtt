@@ -48,17 +48,22 @@ class MQTTFrontend(pykka.ThreadingActor, core.CoreListener):
         logger.info("sub:" + self.topic + "/control")
         self.mqttClient.subscribe(self.topic + "/volume")
         logger.info("sub:" + self.topic + "/volume")
+        self.mqttClient.subscribe(self.topic + "/add")
+        logger.info("sub:" + self.topic + "/add")
 
     def mqtt_on_message(self, mqttc, obj, msg):
         logger.info("received a message on " + msg.topic+" with payload "+str(msg.payload))
         topPlay = self.topic + "/play"
         topControl = self.topic + "/control"
         topVolume = self.topic + "/volume"
+        topAdd = self.topic + "/add"
 
         if msg.topic == topPlay:
             self.core.tracklist.clear()
             self.core.tracklist.add(None, None, str(msg.payload), None)
             self.core.playback.play()
+        if msg.topic == topAdd:
+            self.core.tracklist.add(None, None, str(msg.payload), None)
         elif msg.topic == topControl:
             if msg.payload == "stop":
                 self.core.playback.stop()

@@ -18,6 +18,13 @@ You can start playback of a song or stream via MQTT. Send the following:
 
 `mytopic/play -> 'tunein:station:s48720'`
 
+## Add a song or stream
+You can add a song or a stream via MQTT. Send the following:
+
+`mytopic/add -> 'tunein:station:s48720'`
+
+It won't clear the playlist nor change the playback status
+
 ## Stop playback
 You can stop the playback via MQTT. Send the following:
 
