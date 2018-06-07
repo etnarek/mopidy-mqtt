@@ -80,8 +80,11 @@ class MQTTFrontend(pykka.ThreadingActor, core.CoreListener):
             elif msg.payload == "clear":
                 self.core.tracklist.clear()
         elif msg.topic == topVolume:
+            volume = 0
+            if msg.payload[0].strip() in ["+", "-"]:
+                volume = self.core.mixer.get_volume().get()
             try:
-                volume=int(msg.payload)
+                volume += int(msg.payload)
                 self.core.mixer.set_volume(volume)
             except ValueError:
                 logger.warn("invalid payload for volume: " + msg.payload)
