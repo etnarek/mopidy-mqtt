@@ -92,6 +92,7 @@ class MQTTFrontend(pykka.ThreadingActor, core.CoreListener):
         
     def stream_title_changed(self, title):
         self.MQTTHook.publish("/nowplaying", title)
+        self.tracklist_changed()
 
     def playback_state_changed(self, old_state, new_state):
         self.MQTTHook.publish("/state", new_state)
@@ -116,6 +117,7 @@ class MQTTFrontend(pykka.ThreadingActor, core.CoreListener):
             self.MQTTHook.publish("/image", albumImage)
         except:
             logger.debug("no image")
+        self.tracklist_changed()
         
 class MQTTHook():
     def __init__(self, frontend, core, config, client):
