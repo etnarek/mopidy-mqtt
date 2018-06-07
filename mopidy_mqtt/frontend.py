@@ -127,7 +127,7 @@ class MQTTHook():
     def publish(self, topic, state):
         full_topic = self.config['topic'] + topic
         try:
-            rc = self.mqttclient.publish(full_topic, state)
+            rc = self.mqttclient.publish(full_topic, state, retain=True)
             if rc[0] == mqtt.MQTT_ERR_NO_CONN:            
                 logger.warn("Error during publish: MQTT_ERR_NO_CONN")
             else:
