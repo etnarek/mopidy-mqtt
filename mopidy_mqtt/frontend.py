@@ -79,6 +79,14 @@ class MQTTFrontend(pykka.ThreadingActor, core.CoreListener):
                 self.core.playback.previous()
             elif msg.payload == "clear":
                 self.core.tracklist.clear()
+            elif msg.payload == "toggle":
+                state = self.core.playback.get_state().get()
+                if state == self.core.PlaybackState.PAUSED:
+                    self.core.playback.resume()
+                elif state == self.core.PlaybackState.STOPPED:
+                    self.core.playback.play()
+                elif state == self.core.PlaybackState.PLAYING:
+                    self.core.playback.pause()
         elif msg.topic == topVolume:
             volume = 0
             if msg.payload[0].strip() in ["+", "-"]:
