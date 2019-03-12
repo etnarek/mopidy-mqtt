@@ -27,6 +27,7 @@ class MQTTFrontend(pykka.ThreadingActor, core.CoreListener):
         self.config = config['mqtthook']
         host = self.config['mqtthost']
         port = self.config['mqttport']
+        logger.info("Connect to %s with port %s", host, port)
         self.topic = self.config['topic']
         if self.config['username'] and self.config['password']:
             self.mqttClient.username_pw_set(self.config['username'], password=self.config['password'])
